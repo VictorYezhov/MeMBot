@@ -1,5 +1,6 @@
 package com.bot.core;
 
+import com.bot.data.JedisConnector;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -9,23 +10,20 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
  */
 
 
-
-
 public class Main {
 
     public static void main(String[] args){
 
         // Initialize Api Context
         ApiContextInitializer.init();
-      //  NamesJoukes.addJoukToName("VICTOR", "Ахуенный");
-       // NamesJoukes namesJoukes = new NamesJoukes();
+        JedisConnector jedisConnector = new JedisConnector();
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
         //Register our bot
         try {
-            botsApi.registerBot(new MemchikBot());
+            botsApi.registerBot(new MemchikBot(jedisConnector));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

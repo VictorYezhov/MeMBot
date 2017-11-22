@@ -18,8 +18,9 @@ public class InformationAnalizator {
 
 
     public Action analizeQuery(String query){
+        String actual = query.split(" ")[0];
         for (Quarries q: Quarries.values()) {
-            if(query.equals(q.getExplanations())){
+            if(actual.equals(q.getExplanations())){
                return q.getAction();
             }
         }

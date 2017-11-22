@@ -12,10 +12,9 @@ public class MemSender {
 
     public static SendPhoto createMemToSend(Message message, String f_id){
 
-        SendPhoto msg = new SendPhoto()
+        return new SendPhoto()
                 .setChatId(message.getChatId())
                 .setPhoto(f_id);
-        return msg;
     }
 
 

@@ -20,15 +20,12 @@ public class QuerryProcessor {
 
         if(informationAnalizator.analizeQuery(incomingInfo.getText()) instanceof GiveMeMeMAction){
             Action action = informationAnalizator.analizeQuery(incomingInfo.getText());
-            return MemSender.createMemToSend(incomingInfo, action.action());
+            return MemSender.createMemToSend(incomingInfo, action.action(incomingInfo));
         }else {
             informationAnalizator.analizeQuery(incomingInfo.getText());
         }
 
-
-
         return null;
-
     }
 
 

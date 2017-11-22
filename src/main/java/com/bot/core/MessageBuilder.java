@@ -2,7 +2,7 @@ package com.bot.core;
 
 
 import com.bot.actions.Action;
-import com.bot.data.NamesJoukes;
+import com.bot.data.JedisConnector;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
@@ -13,9 +13,11 @@ import org.telegram.telegrambots.api.objects.User;
 public class  MessageBuilder {
 
     private InformationAnalizator informationAnalizator;
+    private JedisConnector jedisConnector;
 
-    public MessageBuilder() {
+    public MessageBuilder(JedisConnector jedisConnector) {
         this.informationAnalizator = new InformationAnalizator();
+        this.jedisConnector = jedisConnector;
     }
 
     public SendMessage buildMessage(Message incomingInfo, boolean type){
@@ -30,11 +32,11 @@ public class  MessageBuilder {
         System.out.println(user.getFirstName());// User initialization
 
         if(type) {
-            textOfMessage = informationAnalizator.analizeQuery(incomingInfo.getText()).action();
+            textOfMessage = informationAnalizator.analizeQuery(incomingInfo.getText()).action(incomingInfo);
         }else {
             textOfMessage = informationAnalizator.analizeUsersText(incomingInfo.getText());
         }
-        textOfMessage = "Привет " + getRelatedToNameText(user.getFirstName().toUpperCase())+" \n "+ textOfMessage;
+        textOfMessage = "Привет " + jedisConnector.getUserPseudo(String.valueOf(user.getId())+user.getFirstName())+" \n "+ textOfMessage;
         messageToUser.setText(textOfMessage);//Initialization message with text
 
 
@@ -42,20 +44,6 @@ public class  MessageBuilder {
 
     }
 
-
-
-    private String getRelatedToNameText(String name){
-
-        for (String n: NamesJoukes.getNamesJouks().keySet()) {
-            if(name.equalsIgnoreCase(n)){
-                return NamesJoukes.getNamesJouks().get(n).get((int)(Math.random()* NamesJoukes.getNamesJouks().get(n).size()-1));
-            }
-        }
-
-        NamesJoukes.addName(name);
-        NamesJoukes.addJoukToName(name,"Новенький писюн");
-        return "Твоего имени нет, в моей базе данных шуток, я добавлю твое имя, смерд)";
-    }
 
 
 
