@@ -109,6 +109,6 @@ public class MemchikBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "474677975:AAGOk5Z78As45zFuThvtF7AVwdWaI-Dju5M";
+        return "**************************************";
     }
 }
